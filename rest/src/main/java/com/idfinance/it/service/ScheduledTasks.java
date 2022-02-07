@@ -83,9 +83,9 @@ public class ScheduledTasks {
         for (User user : users) {
             BigDecimal userCurrencyValue = cryptoCurrencyService.readCurrencyBySymbol(user.getSymbol()).getPrice();
             BigDecimal realCurrencyValue = user.getPrice();
-            BigDecimal define = realCurrencyValue.subtract(userCurrencyValue).abs();
-            BigDecimal percent = define.multiply(BigDecimal.valueOf(100)).divide(userCurrencyValue,5,
-                    RoundingMode.CEILING);
+            BigDecimal difference = realCurrencyValue.subtract(userCurrencyValue).abs();
+            BigDecimal percent = difference.multiply(BigDecimal.valueOf(100)).divide(userCurrencyValue,3,
+                    RoundingMode.DOWN);
             if (percent.compareTo(BigDecimal.ONE) >= 0) {
                 LOGGER.log(Level.WARNING, String.format(USER_COIN_INFO,
                         user.getUsername(), user.getSymbol(), percent));
